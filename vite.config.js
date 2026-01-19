@@ -15,7 +15,14 @@ export default defineConfig({
     server: {
         cors: true,
         watch: {
-            ignored: ['**/storage/framework/views/**'],
+            ignored: [
+                '**/node_modules/**',
+                '**/public/build/**',
+                '**/storage/framework/cache/**',
+                '**/storage/framework/views/**',
+                '**/storage/logs/**',
+                '**/vendor/**',
+            ],
         },
     },
 });
