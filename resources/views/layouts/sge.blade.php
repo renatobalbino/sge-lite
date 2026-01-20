@@ -25,7 +25,12 @@
             Dashboard
         </a>
 
-        <a href="{{ route('quotes') }}" class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900">
+        <a href="{{ route('admin.products.index') }}" class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900">
+            <x-icon name="document-text" class="h-5 w-5 text-zinc-400 group-hover:text-zinc-500"/>
+            Produtos
+        </a>
+
+        <a href="{{ route('admin.quotes.index') }}" class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900">
             <x-icon name="document-text" class="h-5 w-5 text-zinc-400 group-hover:text-zinc-500"/>
             Orçamentos
         </a>
@@ -51,9 +56,9 @@
 
     <header class="flex h-16 items-center justify-between gap-4 border-b border-zinc-200 bg-white px-6">
         <div class="flex items-center gap-2 text-sm text-zinc-500">
-            <span>App</span>
+            <span>🏠</span>
             <span class="text-zinc-300">/</span>
-            <h1 class="font-semibold text-zinc-900">{{ $header ?? 'Dashboard' }}</h1>
+            <h1 class="font-semibold text-zinc-900">{{ $header ?? '' }}</h1>
         </div>
 
         <div class="flex items-center gap-3">
@@ -70,5 +75,6 @@
     </div>
 </main>
 
+@stack('scripts')
 </body>
 </html>

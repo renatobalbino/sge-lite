@@ -33,7 +33,8 @@
     <a href="{{ $href }}" {{ $attributes->merge(['class' => $classes]) }}>
         @if($icon)
             {{-- Se instalou o blade-heroicons, use assim: --}}
-            <x-dynamic-component :component="'heroicon-o-'.$icon" class="w-4 h-4" />
+{{--            <x-dynamic-component :component="'heroicon-o-'.$icon" class="w-4 h-4" />--}}
+            <x-ui.icon :name="$icon" class="w-4 h-4" />
         @endif
         {{ $slot }}
     </a>
@@ -41,7 +42,8 @@
     <button {{ $attributes->merge(['type' => 'button', 'class' => $classes]) }}>
         @if($icon)
             {{-- Se instalou o blade-heroicons, use assim: --}}
-            <x-dynamic-component :component="'heroicon-o-'.$icon" class="w-4 h-4" />
+{{--            <x-dynamic-component :component="'heroicon-o-'.$icon" class="w-4 h-4" />--}}
+            <x-ui.icon :name="$icon" class="w-4 h-4" />
         @endif
         {{ $slot }}
     </button>

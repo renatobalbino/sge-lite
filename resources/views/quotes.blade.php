@@ -1,4 +1,4 @@
-<x-layouts.sge>
+<x-layouts::sge>
     <x-ui.page-header
         title="Orçamentos"
         description="Gerencie as propostas enviadas aos seus clientes."
@@ -17,7 +17,7 @@
 
         <div class="lg:col-span-2">
             <x-ui.card class="h-full">
-                <livewire:quotes-table />
+                @livewire('quotes.table')
             </x-ui.card>
         </div>
 
@@ -43,4 +43,4 @@
         </div>
 
     </div>
-</x-layouts.sge>
+</x-layouts::sge>
