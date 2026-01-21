@@ -68,6 +68,19 @@
             <button class="rounded-full p-2 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-500">
                 <x-icon name="bell" class="h-5 w-5"/>
             </button>
+
+            <form method="POST" action="{{ route('logout') }}" class="w-full">
+                @csrf
+                <flux:menu.item
+                    as="button"
+                    type="submit"
+                    icon="arrow-right-start-on-rectangle"
+                    class="w-full cursor-pointer"
+                    data-test="logout-button"
+                >
+                    {{ __('Log Out') }}
+                </flux:menu.item>
+            </form>
         </div>
     </header>
 
