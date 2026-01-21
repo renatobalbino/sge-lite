@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 #[AllowDynamicProperties]
 final class Product extends Model
@@ -37,5 +38,10 @@ final class Product extends Model
         return Attribute::make(
             get: fn () => 'R$ '. number_format($this->price / 100, 2, ',', '.')
         );
+    }
+
+    public function getCoverImageAttribute(): string
+    {
+        return Storage::url($this->image_path);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Product;
 
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Component;

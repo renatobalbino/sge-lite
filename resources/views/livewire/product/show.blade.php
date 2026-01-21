@@ -127,7 +127,7 @@
 
         <div class="col-span-1 lg:col-span-2 space-y-6">
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="bg-white p-4 rounded-lg shadow border border-gray-200">
                     <div class="text-gray-500 text-xs uppercase font-bold tracking-wider">Vendas Totais</div>
                     <div class="text-2xl font-bold text-gray-900 mt-1">R$ 1.250,00</div>
@@ -140,10 +140,10 @@
                     <div class="text-gray-500 text-xs uppercase font-bold tracking-wider">Unidades Vendidas</div>
                     <div class="text-2xl font-bold text-gray-900 mt-1">48</div>
                 </div>
-                <div class="bg-white p-4 rounded-lg shadow border border-gray-200">
-                    <div class="text-gray-500 text-xs uppercase font-bold tracking-wider">Conversão (Cliques)</div>
-                    <div class="text-2xl font-bold text-gray-900 mt-1">3.2%</div>
-                </div>
+{{--                <div class="bg-white p-4 rounded-lg shadow border border-gray-200">--}}
+{{--                    <div class="text-gray-500 text-xs uppercase font-bold tracking-wider">Conversão (Cliques)</div>--}}
+{{--                    <div class="text-2xl font-bold text-gray-900 mt-1">3.2%</div>--}}
+{{--                </div>--}}
             </div>
 
             <div class="bg-white p-6 rounded-lg shadow border border-gray-200">
