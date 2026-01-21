@@ -66,7 +66,7 @@
                     </div>
                 </div>
 
-                <div class="px-6 pt-4 pb-2 flex gap-2 overflow-x-auto scrollbar-hide" x-show="images.length > 1">
+                <div class="px-3 pt-4 pb-4 flex gap-2 overflow-x-auto scrollbar-hide" x-show="images.length > 1">
                     <template x-for="(img, index) in images" :key="index">
                         <button
                             @click.stop="activeImage = img; currentIndex = index"
@@ -78,7 +78,7 @@
                     </template>
                 </div>
 
-                <div class="p-6">
+                <div class="p-3 border-t border-t-gray-100">
                     <h3 class="text-xl font-bold text-gray-900">{{ $product->name }}</h3>
                     <p class="text-2xl font-semibold text-indigo-600 mt-2">{{ $product->formatted_price }}</p>
                 </div>
@@ -129,7 +129,7 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="bg-white p-4 rounded-lg shadow border border-gray-200">
-                    <div class="text-gray-500 text-xs uppercase font-bold tracking-wider">Vendas Totais</div>
+                    <div class="mb-2 text-gray-500 text-xs uppercase font-bold tracking-wider">Vendas Totais</div>
                     <div class="text-2xl font-bold text-gray-900 mt-1">R$ 1.250,00</div>
                     <div class="text-xs text-green-600 mt-1 flex items-center">
                         <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
@@ -137,7 +137,7 @@
                     </div>
                 </div>
                 <div class="bg-white p-4 rounded-lg shadow border border-gray-200">
-                    <div class="text-gray-500 text-xs uppercase font-bold tracking-wider">Unidades Vendidas</div>
+                    <div class="mb-2 text-gray-500 text-xs uppercase font-bold tracking-wider">Unidades Vendidas</div>
                     <div class="text-2xl font-bold text-gray-900 mt-1">48</div>
                 </div>
 {{--                <div class="bg-white p-4 rounded-lg shadow border border-gray-200">--}}
@@ -147,7 +147,7 @@
             </div>
 
             <div class="bg-white p-6 rounded-lg shadow border border-gray-200">
-                <h4 class="font-bold text-gray-800 mb-6">Performance de Vendas (Últimos 30 dias)</h4>
+                <h4 class="mb-2 font-bold text-gray-800">Performance de Vendas (Últimos 30 dias)</h4>
 
                 <div wire:ignore
                      x-data="productSalesChart(@js($chartData))"

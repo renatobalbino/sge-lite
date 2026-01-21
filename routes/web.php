@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\Webhooks\WhatsAppController;
 use App\Livewire\Admin\Product\ProductForm;
 use App\Livewire\Admin\Product\ProductList;
@@ -25,8 +26,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/', QuoteList::class)->name('index');
         });
 
+        Route::name('clients.')->prefix('clients')->group(function () {
+            Route::get('/', [ClientsController::class, 'index'])->name('index');
+        });
+
         Route::name('config.')->prefix('config')->group(function () {
-            Route::post('/webhooks/whatsapp', [WhatsAppController::class, 'handle'])->name('whatsapp');
+            Route::post('/webhooks/whatsapp', [WhatsAppController::class, 'index'])->name('whatsapp');
         });
     });
 });

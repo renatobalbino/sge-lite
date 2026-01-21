@@ -13,43 +13,29 @@
 </head>
 <body class="h-full flex overflow-hidden text-zinc-900 font-sans">
 
-<aside class="hidden w-64 flex-col border-r border-zinc-200 bg-gray-100 md:flex">
+<aside class="hidden w-64 flex-col border-r border-gray-200 bg-gray-100 md:flex">
 
     <div class="flex h-16 items-center border-b border-zinc-200 px-6">
         <span class="text-lg font-bold tracking-tight text-indigo-600">GestorSaaS</span>
     </div>
 
-    <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
-        <x-ui.link :title="'Dashboard'" :icon="'home'" :is_active={{ request()->routeIs('admin.dashboard') }}/>
-        <x-ui.link :title="'Produtos'" :icon="'document-text'" :url="{{ route('admin.products.index') }}" :is_active={{ request()->routeIs('admin.products.*') }} />
+    <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-2">
+        <x-ui.link icon="home" url="{{ route('admin.dashboard') }}" :is_active="request()->routeIs('admin.dashboard')">Dashboard</x-ui.link>
+        <x-ui.link icon="archive-box" url="{{ route('admin.products.index') }}" :is_active="request()->routeIs('admin.products.*')">Produtos</x-ui.link>
+        <x-ui.link icon="briefcase" url="{{ route('admin.quotes.index') }}" :is_active="request()->routeIs('admin.quotes.*')">Orçamentos</x-ui.link>
+        <x-ui.link icon="users" url="{{ route('admin.clients.index') }}" :is_active="request()->routeIs('admin.clients.*')">Clientes</x-ui.link>
 
-        <a href="{{ route('admin.dashboard') }}" class="group flex items-center gap-3 rounded-lg bg-zinc-100 px-3 py-2 text-sm font-medium text-zinc-900">
-            <x-icon name="home" class="h-5 w-5 text-zinc-500 group-hover:text-zinc-900"/>
-            Dashboard
-        </a>
+        <x-divider/>
 
-        <a href="{{ route('admin.products.index') }}" class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900">
-            <x-icon name="document-text" class="h-5 w-5 text-zinc-400 group-hover:text-zinc-500"/>
-            Produtos
-        </a>
-
-        <a href="{{ route('admin.quotes.index') }}" class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900">
-            <x-icon name="document-text" class="h-5 w-5 text-zinc-400 group-hover:text-zinc-500"/>
-            Orçamentos
-        </a>
-
-        <a href="#" class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900">
-            <x-icon name="users" class="h-5 w-5 text-zinc-400 group-hover:text-zinc-500"/>
-            Clientes
-        </a>
+        <x-ui.link icon="chart-bar" url="{{ route('admin.clients.index') }}" :is_active="request()->routeIs('admin.clients.*')">Relatórios</x-ui.link>
     </nav>
 
-    <div class="border-t border-zinc-200 p-4">
+    <div class="border-t border-zinc-200 p-4 bg-indigo-600 text-white">
         <div class="flex items-center gap-3">
             <img class="h-9 w-9 rounded-full bg-zinc-100" src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}" alt="">
             <div class="text-sm">
-                <p class="font-medium text-zinc-900">{{ Auth::user()->name }}</p>
-                <p class="text-xs text-zinc-500">{{ Auth::user()->currentPlan->name ?? 'Plano Exemplo' }}</p>
+                <p class="font-medium text-white">{{ Auth::user()->name }}</p>
+                <p class="text-xs text-gray-300">{{ Auth::user()->currentPlan->name ?? 'Plano Exemplo' }}</p>
             </div>
         </div>
     </div>
@@ -86,7 +72,9 @@
 
     <div class="flex-1 overflow-y-auto bg-zinc-50 p-6 md:p-6">
         <div class="mx-auto w-full">
-            {{ $slot }}
+            <div class="p-6 bg-white shadow rounded-lg border-gray-200">
+                {{ $slot }}
+            </div>
         </div>
     </div>
 </main>

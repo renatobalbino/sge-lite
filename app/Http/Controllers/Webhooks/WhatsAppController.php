@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class WhatsAppController extends Controller
 {
-    public function handle(Request $request): ?string
+    public function index(Request $request): ?string
     {
         // 1. Validar e extrair dados do Webhook da Evolution API
         $data = $request->all();

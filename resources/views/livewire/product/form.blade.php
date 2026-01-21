@@ -1,23 +1,20 @@
-<div class="p-6 bg-white shadow rounded-lg">
+<div>
     <h2 class="text-2xl font-bold mb-6 text-gray-800">Novo Produto</h2>
 
     <form wire:submit.prevent="save">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             <div class="col-span-2">
-                <label class="block text-sm font-medium text-gray-700">Nome do Produto</label>
-                <input type="text" wire:model="name" class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                <x-ui.input label="Título" wire:model="name" />
                 @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
             </div>
 
-            <div class="col-span-2">
-                <label class="block text-sm font-medium text-gray-700">Descrição</label>
-                <textarea wire:model="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
+            <div class="col-span-1">
+                <x-ui.input type="number" label="Preço Base (R$)" step="0.01" wire:model="price" />
+                @error('price') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
             </div>
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Preço Base (R$)</label>
-                <input type="number" step="0.01" wire:model="price" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                @error('price') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+            <div class="col-span-3">
+                <x-ui.input :type="'textarea'" label="Descrição" wire:model="description" rows="4" />
             </div>
 
             <div class="flex items-center mt-6" x-data>
