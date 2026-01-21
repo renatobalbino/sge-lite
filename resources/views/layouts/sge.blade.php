@@ -23,15 +23,15 @@
         <x-ui.link :title="'Dashboard'" :icon="'home'" :is_active={{ request()->routeIs('admin.dashboard') }}/>
         <x-ui.link :title="'Produtos'" :icon="'document-text'" :url="{{ route('admin.products.index') }}" :is_active={{ request()->routeIs('admin.products.*') }} />
 
-{{--        <a href="#" class="group flex items-center gap-3 rounded-lg bg-zinc-100 px-3 py-2 text-sm font-medium text-zinc-900">--}}
-{{--            <x-icon name="home" class="h-5 w-5 text-zinc-500 group-hover:text-zinc-900"/>--}}
-{{--            Dashboard--}}
-{{--        </a>--}}
+        <a href="{{ route('admin.dashboard') }}" class="group flex items-center gap-3 rounded-lg bg-zinc-100 px-3 py-2 text-sm font-medium text-zinc-900">
+            <x-icon name="home" class="h-5 w-5 text-zinc-500 group-hover:text-zinc-900"/>
+            Dashboard
+        </a>
 
-{{--        <a href="{{ route('admin.products.index') }}" class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900">--}}
-{{--            <x-icon name="document-text" class="h-5 w-5 text-zinc-400 group-hover:text-zinc-500"/>--}}
-{{--            Produtos--}}
-{{--        </a>--}}
+        <a href="{{ route('admin.products.index') }}" class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900">
+            <x-icon name="document-text" class="h-5 w-5 text-zinc-400 group-hover:text-zinc-500"/>
+            Produtos
+        </a>
 
         <a href="{{ route('admin.quotes.index') }}" class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900">
             <x-icon name="document-text" class="h-5 w-5 text-zinc-400 group-hover:text-zinc-500"/>
