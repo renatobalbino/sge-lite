@@ -115,7 +115,26 @@ graph TD
        - Remoção da marca da sua plataforma.
 
 
-#### 5. To-Do para o Futuro (Roadmap Varejo):
+#### 5. Integração com API do WhatsApp (WhatsApp Business API)
+
+```mermaid
+sequenceDiagram
+    participant Cliente as Cliente (WhatsApp App)
+    participant Evo as Evolution API (Docker)
+    participant Laravel as Seu Sistema (Webhook)
+    participant DB as Banco de Dados
+    
+    Note over Cliente, Evo: Fluxo de Mensagem
+    Cliente->>Evo: Envia "Oi"
+    Evo->>Laravel: POST /api/webhooks/whatsapp (JSON)
+    Laravel->>DB: Busca Sessão e Estado atual
+    Laravel->>Laravel: BotLogic processa a resposta
+    Laravel->>Evo: POST /message/sendText
+    Evo->>Cliente: Recebe "Olá! Digite 1 para o Menu"
+```
+
+
+#### 6. To-Do para o Futuro (Roadmap Varejo):
 
    - Catálogo PDF Automático: Muitos revendedores (ex: Natura, Tupperware, Roupas) gostam de mandar PDF. Crie um botão que converte a loja online atual em um PDF bonitão para compartilhar em grupos.
    - Integração com Instagram Shopping (Bag): Gerar o XML necessário para o lojista conseguir colocar a "sacolinha" no Instagram levando para o seu checkout.
