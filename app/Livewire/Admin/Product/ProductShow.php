@@ -3,11 +3,12 @@
 namespace App\Livewire\Admin\Product;
 
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-class ProductShow extends Component
+final class ProductShow extends Component
 {
     public Product $product;
 
@@ -16,6 +17,23 @@ class ProductShow extends Component
         $this->product = Product::query()
             ->with(['variants', 'images'])
             ->findOrFail($productId);
+    }
+
+    public function getAllImagesProperty(): array
+    {
+        $images = [];
+
+        // 1. Adiciona a Capa (se existir)
+        if ($this->product->image_path) {
+            $images[] = Storage::url($this->product->image_path);
+        }
+
+        // 2. Adiciona a Galeria
+        foreach ($this->product->images as $img) {
+            $images[] = Storage::url($img->image_path);
+        }
+
+        return $images;
     }
 
     #[Layout('layouts.sge')]

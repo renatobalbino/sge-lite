@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Product;
 use AllowDynamicProperties;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Traits\WithToast;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -17,6 +18,7 @@ use Livewire\WithFileUploads;
 final class ProductForm extends Component
 {
     use WithFileUploads;
+    use WithToast;
 
     public ?Product $product = null;
 
@@ -86,6 +88,7 @@ final class ProductForm extends Component
         // Limpa a referência da imagem antiga visualmente
         // (A remoção real do banco acontece no método save() se esta variável estiver null)
         $this->existingCoverImage = null;
+        $this->info('Imagem de capa removida.');
     }
 
     public function removeTempGalleryImage($index): void
@@ -107,6 +110,7 @@ final class ProductForm extends Component
 
             // Atualiza a collection visualmente para sumir da tela
             $this->existingGallery = $this->existingGallery->reject(fn ($img) => $img->id === $id);
+            $this->info('Imagem removida.');
         }
     }
 
@@ -125,69 +129,74 @@ final class ProductForm extends Component
 
     public function save(): void
     {
-        $this->validate();
+        try {
+            $this->validate();
 
-        DB::transaction(function () {
-            $coverPath = $this->existingCoverImage;
+            DB::transaction(function () {
+                $coverPath = $this->existingCoverImage;
 
-            if ($this->coverImage) {
-                if ($this->existingCoverImage) {
-                    Storage::disk('public')->delete($this->existingCoverImage);
+                if ($this->coverImage) {
+                    if ($this->existingCoverImage) {
+                        Storage::disk('public')->delete($this->existingCoverImage);
+                    }
+                    $coverPath = $this->coverImage->store('products', 'public');
                 }
-                $coverPath = $this->coverImage->store('products', 'public');
-            }
 
-            // 1. Cria o Produto Pai
-            $payload = [
-                'user_id' => auth()->id(),
-                'name' => $this->name,
-                'slug' => Str::slug($this->name),
-                'description' => $this->description,
-                'price' => (int) ($this->price * 100),
-                'has_variants' => $this->has_variants,
-                'image_path' => $coverPath,
-            ];
+                // 1. Cria o Produto Pai
+                $payload = [
+                    'user_id' => auth()->id(),
+                    'name' => $this->name,
+                    'slug' => Str::slug($this->name),
+                    'description' => $this->description,
+                    'price' => (int)($this->price * 100),
+                    'has_variants' => $this->has_variants,
+                    'image_path' => $coverPath,
+                ];
 
-            if ($this->product) {
-                $this->product->update($payload);
-                $product = $this->product;
-            } else {
-                $product = Product::create($payload + ['is_active' => true]);
-            }
-
-            if (! empty($this->galleryImages)) {
-                foreach ($this->galleryImages as $img) {
-                    $path = $img->store('products/gallery', 'public');
-                    $product->images()->create([
-                        'image_path' => $path,
-                    ]);
+                if ($this->product) {
+                    $this->product->update($payload);
+                    $product = $this->product;
+                } else {
+                    $product = Product::create($payload + ['is_active' => true]);
                 }
-            }
 
-            if ($this->has_variants) {
-                $currentVariantIds = [];
-                foreach ($this->variants as $variant) {
-                    $variantData = [
-                        'name' => $variant['name'],
-                        'price' => $variant['price'] !== '' ? (int) ($variant['price'] * 100) : null,
-                        'stock_quantity' => $variant['stock_quantity'],
-                    ];
-
-                    if (isset($variant['id'])) {
-                        $product->variants()->where('id', $variant['id'])->update($variantData);
-                        $currentVariantIds[] = $variant['id'];
-                    } else {
-                        $newVariant = $product->variants()->create($variantData);
-                        $currentVariantIds[] = $newVariant->id;
+                if (!empty($this->galleryImages)) {
+                    foreach ($this->galleryImages as $img) {
+                        $path = $img->store('products/gallery', 'public');
+                        $product->images()->create([
+                            'image_path' => $path,
+                        ]);
                     }
                 }
-                // Remove variantes que foram deletadas do form
-                $product->variants()->whereNotIn('id', $currentVariantIds)->delete();
-            }
-        });
 
-        session()?->flash('message', 'Produto cadastrado com sucesso!');
-        $this->redirectRoute('admin.products.index');
+                if ($this->has_variants) {
+                    $currentVariantIds = [];
+                    foreach ($this->variants as $variant) {
+                        $variantData = [
+                            'name' => $variant['name'],
+                            'price' => $variant['price'] !== '' ? (int)($variant['price'] * 100) : null,
+                            'stock_quantity' => $variant['stock_quantity'],
+                        ];
+
+                        if (isset($variant['id'])) {
+                            $product->variants()->where('id', $variant['id'])->update($variantData);
+                            $currentVariantIds[] = $variant['id'];
+                        } else {
+                            $newVariant = $product->variants()->create($variantData);
+                            $currentVariantIds[] = $newVariant->id;
+                        }
+                    }
+                    // Remove variantes que foram deletadas do form
+                    $product->variants()->whereNotIn('id', $currentVariantIds)->delete();
+                }
+            });
+
+            // session()?->flash('message', 'Produto cadastrado com sucesso!');
+            $this->success('Produto cadastrado com sucesso!');
+            // $this->redirectRoute('admin.products.index');
+        } catch (\Exception $e) {
+            $this->error('Erro ao salvar: ' . $e->getMessage());
+        }
     }
 
     #[Layout('layouts.sge')]

@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use AllowDynamicProperties;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[AllowDynamicProperties]
 final class Product extends Model
 {
     use SoftDeletes;
@@ -33,7 +35,7 @@ final class Product extends Model
     protected function formattedPrice(): Attribute
     {
         return Attribute::make(
-            get: fn () => 'R$ '.number_format($this->price / 100, 2, ',', '.')
+            get: fn () => 'R$ '. number_format($this->price / 100, 2, ',', '.')
         );
     }
 }
