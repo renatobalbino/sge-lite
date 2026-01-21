@@ -28,7 +28,7 @@ final class ProductForm extends Component
 
     public $price;
 
-    public $has_variants = false;
+    public $hasVariants = false;
 
     public $coverImage;
 
@@ -41,6 +41,8 @@ final class ProductForm extends Component
     public $existingGallery = [];
 
     public $variants = [];
+
+    protected bool $isEditing = false;
 
     protected $rules = [
         'name' => 'required|min:3',
@@ -58,11 +60,12 @@ final class ProductForm extends Component
             ->with(['variants', 'images'])
             ->find($productId);
         if ($product) {
+            $this->isEditing = true;
             $this->product = $product;
             $this->name = $product->name;
             $this->description = $product->description;
             $this->price = $product->price / 100;
-            $this->has_variants = $product->has_variants;
+            $this->hasVariants = $product->has_variants;
             $this->existingCoverImage = $product->image_path;
             $this->existingGallery = $product->images;
 
@@ -148,8 +151,8 @@ final class ProductForm extends Component
                     'name' => $this->name,
                     'slug' => Str::slug($this->name),
                     'description' => $this->description,
-                    'price' => (int)($this->price * 100),
-                    'has_variants' => $this->has_variants,
+                    'price' => (int) ($this->price * 100),
+                    'has_variants' => $this->hasVariants,
                     'image_path' => $coverPath,
                 ];
 
@@ -160,7 +163,7 @@ final class ProductForm extends Component
                     $product = Product::create($payload + ['is_active' => true]);
                 }
 
-                if (!empty($this->galleryImages)) {
+                if (! empty($this->galleryImages)) {
                     foreach ($this->galleryImages as $img) {
                         $path = $img->store('products/gallery', 'public');
                         $product->images()->create([
@@ -169,12 +172,12 @@ final class ProductForm extends Component
                     }
                 }
 
-                if ($this->has_variants) {
+                if ($this->hasVariants) {
                     $currentVariantIds = [];
                     foreach ($this->variants as $variant) {
                         $variantData = [
                             'name' => $variant['name'],
-                            'price' => $variant['price'] !== '' ? (int)($variant['price'] * 100) : null,
+                            'price' => $variant['price'] !== '' ? (int) ($variant['price'] * 100) : null,
                             'stock_quantity' => $variant['stock_quantity'],
                         ];
 
@@ -191,11 +194,11 @@ final class ProductForm extends Component
                 }
             });
 
-            // session()?->flash('message', 'Produto cadastrado com sucesso!');
-            $this->success('Produto cadastrado com sucesso!');
-            // $this->redirectRoute('admin.products.index');
+            $message = $this->isEditing ? 'Produto atualizado com sucesso!' : 'Produto cadastrado com sucesso!';
+            $this->success($message);
+            $this->redirectRoute('admin.products.index');
         } catch (\Exception $e) {
-            $this->error('Erro ao salvar: ' . $e->getMessage());
+            $this->error('Erro ao salvar: '.$e->getMessage());
         }
     }
 

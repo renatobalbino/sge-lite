@@ -21,16 +21,16 @@
             </div>
 
             <div class="flex items-center mt-6" x-data>
-                <input type="checkbox" wire:model.live="has_variants" id="has_variants" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                <input type="checkbox" wire:model.live="hasVariants" id="has_variants" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
                 <label for="has_variants" class="ml-2 block text-sm text-gray-900">
                     Este produto possui variações (Cor, Tamanho)?
                 </label>
             </div>
         </div>
 
-        <hr class="my-6 border-gray-200">
+        @if($hasVariants)
+            <hr class="my-6 border-gray-200">
 
-        @if($has_variants)
             <div class="mb-6">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-medium text-gray-900">Configurar Variações</h3>
@@ -71,8 +71,11 @@
             </div>
         @endif
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <hr class="my-6 border-gray-200">
 
+        <h3 class="mb-4 text-lg font-medium text-gray-900">Imagens do produto</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
             <div class="space-y-4">
                 <label class="block text-sm font-bold text-gray-700">Imagem de Capa (Principal)</label>
 
@@ -110,7 +113,6 @@
                 @endif
                 @error('coverImage') <span class="text-red-500 text-xs font-semibold">{{ $message }}</span> @enderror
             </div>
-
 
             <div class="space-y-4">
                 <div class="flex justify-between items-center">
