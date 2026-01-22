@@ -24,6 +24,8 @@
                     </div>
                 </div>
 
+                <x-divider/>
+
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="bg-white p-4 rounded-lg shadow border border-gray-200">
                         <div class="mb-2 text-gray-800 text-xs uppercase font-bold tracking-wider">Vendas Totais</div>
@@ -53,22 +55,25 @@
                 </div>
 
                 <div class="bg-white rounded-lg shadow border border-gray-200 overflow-hidden">
-                    <div class="p-4 border-b border-gray-200">
+                    <div class="flex justify-between items-center p-4 border-b border-gray-200">
                         <h3 class="text-sm font-bold text-gray-800 uppercase">Últimos Pedidos com este item</h3>
+                        <a href="" class="flex items-center gap-1 text-indigo-600 hover:underline text-xs">
+                            Ver meus pedidos
+                        </a>
                     </div>
                     <table class="min-w-full divide-y divide-gray-200 text-sm">
                         <tbody class="bg-white divide-y divide-gray-200">
                         <tr>
-                            <td class="p-4 text-gray-900">Pedido #1045</td>
-                            <td class="p-4 text-gray-600">João Silva</td>
-                            <td class="p-4 text-gray-500">Há 2 horas</td>
-                            <td class="p-4 text-right font-medium text-green-600">Concluído</td>
+                            <td class="p-4 py-3 text-gray-900">Pedido #1045</td>
+                            <td class="p-4 py-3 text-gray-600">João Silva</td>
+                            <td class="p-4 py-3 text-gray-500">Há 2 horas</td>
+                            <td class="p-4 py-3 text-right font-medium text-green-600">Concluído</td>
                         </tr>
                         <tr>
-                            <td class="p-4 text-gray-900">Pedido #1042</td>
-                            <td class="p-4 text-gray-600">Maria Souza</td>
-                            <td class="p-4 text-gray-500">Ontem</td>
-                            <td class="p-4 text-right font-medium text-gray-500">Pendente</td>
+                            <td class="p-4 py-3 text-gray-900">Pedido #1042</td>
+                            <td class="p-4 py-3 text-gray-600">Maria Souza</td>
+                            <td class="p-4 py-3 text-gray-500">Ontem</td>
+                            <td class="p-4 py-3 text-right font-medium text-gray-500">Pendente</td>
                         </tr>
                         </tbody>
                     </table>

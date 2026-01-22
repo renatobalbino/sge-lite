@@ -15,10 +15,12 @@ $classes = 'group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medi
 @endphp
 
 <a href="{{ $url }}" {{ $attributes->merge(['class' => $classes]) }}>
-    @if ($is_active)
-        <x-icon name="{{ $icon }}" class="h-5 w-5 text-white group-hover:text-white"/>
-    @else
-        <x-icon name="{{ $icon }}" class="h-5 w-5 text-zinc-500 group-hover:text-white"/>
-    @endif
+    @isset($icon)
+        @if ($is_active)
+            <x-icon name="{{ $icon }}" class="h-5 w-5 text-white group-hover:text-white"/>
+        @else
+            <x-icon name="{{ $icon }}" class="h-5 w-5 text-zinc-500 group-hover:text-white"/>
+        @endif
+    @endisset
     {{ $slot }}
 </a>
