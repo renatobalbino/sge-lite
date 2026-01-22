@@ -4,7 +4,6 @@ namespace App\Livewire\Admin\Product;
 
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -15,6 +14,13 @@ final class ProductList extends Component
     use WithPagination;
 
     public $search = '';
+
+    public bool $hasProducts = false;
+
+    public function mount(): void
+    {
+        $this->hasProducts = Product::query()->where('user_id', auth()->id())->exists();
+    }
 
     // Filtros adicionais podem vir aqui (ex: $filterStatus = 'all')
 
@@ -54,10 +60,8 @@ final class ProductList extends Component
                     ->orWhere('sku', 'like', "%{$this->search}%"); // Se tiver SKU no pai
             })
             ->latest()
-            ->paginate(10);
+            ->paginate(15);
 
-        return view('livewire.product.list', [
-            'products' => $products,
-        ]);
+        return view('livewire.product.list', ['products' => $products]);
     }
 }

@@ -42,7 +42,6 @@
 </aside>
 
 <main class="flex flex-1 flex-col overflow-hidden">
-
     <header class="flex h-16 items-center justify-between gap-4 border-b border-zinc-200 bg-white px-6">
         <div class="flex items-center gap-2 text-sm text-zinc-500">
             <span>🏠</span>
@@ -70,11 +69,9 @@
         </div>
     </header>
 
-    <div class="flex-1 overflow-y-auto bg-zinc-50 p-6 md:p-6">
+    <div class="flex-1 overflow-y-auto text-sm bg-zinc-50">
         <div class="mx-auto w-full">
-            <div class="p-6 bg-white shadow rounded-lg border-gray-200">
-                {{ $slot }}
-            </div>
+            {{ $slot }}
         </div>
     </div>
 </main>

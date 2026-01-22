@@ -5,6 +5,7 @@ use App\Http\Controllers\Webhooks\WhatsAppController;
 use App\Livewire\Admin\Product\ProductForm;
 use App\Livewire\Admin\Product\ProductList;
 use App\Livewire\Admin\Product\ProductShow;
+use App\Livewire\Admin\Quotes\CreateQuote;
 use App\Livewire\Admin\Quotes\QuoteList;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::name('quotes.')->prefix('quotes')->group(function () {
             Route::get('/', QuoteList::class)->name('index');
+            Route::get('/create', CreateQuote::class)->name('create');
         });
 
         Route::name('clients.')->prefix('clients')->group(function () {

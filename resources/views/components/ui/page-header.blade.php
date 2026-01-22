@@ -3,8 +3,7 @@
     'description' => null,
 ])
 
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
     {{-- Lado Esquerdo: Títulos --}}
     <div>
         <h1 class="text-2xl font-bold tracking-tight text-zinc-900">
@@ -19,7 +18,7 @@
 
     {{-- Lado Direito: Ações (Botões) --}}
     @if(isset($actions))
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2">
             {{ $actions }}
         </div>
     @endif

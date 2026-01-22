@@ -66,7 +66,7 @@ final class QuoteList extends Component
             ->orderByDesc('created_at')
             ->paginate(10);
 
-        return view('livewire.quotes.table', [
+        return view('livewire.quotes.index', [
             'quotes' => $quotes,
         ]);
     }
