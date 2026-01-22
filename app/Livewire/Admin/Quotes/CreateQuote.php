@@ -11,6 +11,6 @@ final class CreateQuote extends Component
     #[Layout('layouts.sge')]
     public function render(): View
     {
-        return view('livewire.quotes.create');
+        return view('livewire.quotes.form');
     }
 }

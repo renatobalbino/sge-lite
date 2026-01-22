@@ -26,24 +26,24 @@
             </x-ui.input-icon>
         </div>
 
-        <div class="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
+        <x-ui.card class="overflow-hidden" padding="p-0">
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Produto
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Preço
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Estoque
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Status
                         </th>
-                        <th scope="col" class="relative px-6 py-3">
+                        <th scope="col" class="relative px-3 py-3">
                             <span class="sr-only">Ações</span>
                         </th>
                     </tr>
@@ -52,7 +52,7 @@
                     @forelse($products as $product)
                         <tr wire:key="row-{{ $product->id }}" class="hover:bg-gray-50 transition">
 
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-3 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
                                         <img src="{{ $product->cover_image }}" class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105" />
@@ -72,13 +72,13 @@
                                 </div>
                             </td>
 
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-3 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-900">
                                     {{ $product->formatted_price }}
                                 </div>
                             </td>
 
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-3 py-4 whitespace-nowrap">
                                 @php
                                     // Se tem variações, usamos a soma do Eager Loading.
                                     // Se não, usamos o campo stock do produto (que não criamos no schema inicial,
@@ -97,7 +97,7 @@
                                 @endif
                             </td>
 
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-3 py-4 whitespace-nowrap">
                                 <button
                                     wire:click="toggleStatus({{ $product->id }})"
                                     class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 {{ $product->is_active ? 'bg-indigo-600' : 'bg-gray-200' }}"
@@ -109,25 +109,30 @@
                                 </button>
                             </td>
 
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <td class="px-3 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div class="flex items-center justify-end gap-3">
-                                    <a href="{{ route('admin.products.show', [$product->id]) }}" class="text-slate-600 hover:text-indigo-900">Ver</a>
-                                    <a href="{{ route('admin.products.create', $product) }}" class="text-indigo-600 hover:text-indigo-900">Editar</a>
+                                    <a href="{{ route('admin.products.show', [$product->id]) }}" class="text-slate-600 hover:text-indigo-900">
+                                        <x-icon icon="eye" />
+                                    </a>
+                                    <a href="{{ route('admin.products.create', $product) }}" class="text-indigo-600 hover:text-indigo-900">
+                                        <x-icon icon="pencil-square" />
+                                    </a>
 
                                     <button
                                         type="button"
                                         x-data
                                         @click="if(confirm('Tem certeza que deseja excluir este produto?')) $wire.delete({{ $product->id }})"
-                                        class="text-red-600 hover:text-red-900"
+                                        class="text-red-600 hover:text-red-900 hover:cursor-pointer"
+                                        title="Excluir produto"
                                     >
-                                        Excluir
+                                        <x-icon icon="trash" />
                                     </button>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-10 text-center text-gray-500">
+                            <td colspan="5" class="px-3 py-10 text-center text-gray-500">
                                 <div class="flex flex-col items-center justify-center">
                                     <svg class="w-12 h-12 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
                                     <p class="text-lg font-medium text-gray-900">Nenhum produto encontrado</p>
@@ -151,6 +156,6 @@
             <div class="bg-gray-50 px-4 py-3 border-t border-gray-200 sm:px-6">
                 {{ $products->links() }}
             </div>
-        </div>
+        </x-ui.card>
     </x-slot:body>
 </x-ui.page>

@@ -3,7 +3,7 @@
     'padding' => 'p-5 md:p-6',
 ])
 
-<div {{ $attributes->merge(['class' => 'bg-white border border-zinc-200 rounded-xl shadow-sm flex flex-col']) }}>
+<div {{ $attributes->merge(['class' => 'bg-white border border-zinc-200 rounded-lg shadow-sm flex flex-col']) }}>
 
     {{-- Cabeçalho Opcional --}}
     @if($title || isset($header))

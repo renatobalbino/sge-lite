@@ -55,7 +55,7 @@ final class QuoteList extends Component
         // Exemplo de Query (ajuste conforme seu Model real)
         // Se ainda não tiver banco, vai retornar vazio e mostrar o Empty State
         $quotes = Quote::query()
-            ->where('team_id', Auth::id()) // ou tenant_id
+            //->where('team_id', Auth::id()) // ou tenant_id
             ->when($this->search, function ($q) {
                 $q->where('client_name', 'like', '%'.$this->search.'%')
                     ->orWhere('title', 'like', '%'.$this->search.'%');

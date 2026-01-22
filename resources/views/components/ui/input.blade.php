@@ -1,6 +1,7 @@
 @props([
     'label' => '',
     'type' => 'text',
+    'labelClass' => 'block text-sm font-medium text-gray-700'
 ])
 
 @php
@@ -11,7 +12,7 @@ $attributes = $attributes->merge(['type' => 'text', 'class' => $defaultClasses])
 @endphp
 
 <div>
-    <label class="block text-sm font-medium text-gray-700">{{ $label }}</label>
+    <label class="{{ $labelClass }}">{{ $label }}</label>
 
     @if ($type !== 'textarea')
         <input type="{{ $type }}" {{ $attributes }}>
