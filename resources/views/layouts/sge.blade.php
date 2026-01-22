@@ -16,18 +16,19 @@
 <aside class="hidden w-64 flex-col border-r border-gray-200 bg-gray-100 md:flex">
 
     <div class="flex h-16 items-center border-b border-zinc-200 px-6">
-        <span class="text-lg font-bold tracking-tight text-indigo-600">GestorSaaS</span>
+        <div class="flex h-16 shrink-0 items-center border-b border-zinc-100">
+            <div class="flex items-center gap-2">
+                <div class="bg-indigo-600 text-white p-1.5 rounded-lg">
+                    <x-icon name="cube-transparent" class="w-5 h-5"/>
+                </div>
+                <span class="text-lg font-bold tracking-tight text-zinc-900">Gestor<span class="text-indigo-600">Pro</span>
+                </span>
+            </div>
+        </div>
     </div>
 
     <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-2">
-        <x-ui.link icon="home" url="{{ route('admin.dashboard') }}" :is_active="request()->routeIs('admin.dashboard')">Dashboard</x-ui.link>
-        <x-ui.link icon="archive-box" url="{{ route('admin.products.index') }}" :is_active="request()->routeIs('admin.products.*')">Produtos</x-ui.link>
-        <x-ui.link icon="briefcase" url="{{ route('admin.quotes.index') }}" :is_active="request()->routeIs('admin.quotes.*')">Orçamentos</x-ui.link>
-        <x-ui.link icon="users" url="{{ route('admin.clients.index') }}" :is_active="request()->routeIs('admin.clients.*')">Clientes</x-ui.link>
-
-        <x-divider/>
-
-        <x-ui.link icon="chart-bar" url="{{ route('admin.clients.index') }}" :is_active="request()->routeIs('admin.clients.*')">Relatórios</x-ui.link>
+        @include('layouts.partials.sge.nav-links')
     </nav>
 
     <div class="border-t border-zinc-200 p-4 bg-indigo-600 text-white">
@@ -50,6 +51,8 @@
         </div>
 
         <div class="flex items-center gap-3">
+            <x-ui.link icon="shopping-cart" url="{{ route('shop.catalog') }}">Loja</x-ui.link>
+
             <button class="rounded-full p-2 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-500">
                 <x-icon name="bell" class="h-5 w-5"/>
             </button>

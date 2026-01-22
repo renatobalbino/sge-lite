@@ -8,6 +8,7 @@ use App\Livewire\Admin\Product\ProductShow;
 use App\Livewire\Admin\Quotes\QuoteForm;
 use App\Livewire\Admin\Quotes\QuoteList;
 use App\Livewire\Admin\Quotes\QuotePublicView;
+use App\Livewire\Shop\ProductCatalog;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', static fn () => view('welcome'))->name('home');
@@ -39,6 +40,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
+Route::name('shop.')->prefix('shop')->group(function () {
+    Route::get('/{slug?}', ProductCatalog::class)->name('catalog');
+});
 Route::get('/p/{quote}', QuotePublicView::class)->name('quotes.public');
 
 require __DIR__.'/settings.php';

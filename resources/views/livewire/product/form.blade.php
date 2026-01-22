@@ -12,7 +12,7 @@
 
     <x-slot:body>
         <form wire:submit.prevent="save">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="col-span-2">
                     <x-ui.input label="Título" wire:model="name" />
                     @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
@@ -23,10 +23,116 @@
                     @error('price') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
 
+                <div class="col-span-1">
+                    <x-ui.input label="SKU" wire:model="sku" />
+                    @error('sku') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="col-span-1">
+                    <x-ui.select label="Categoria" wire:model="category"></x-ui.select>
+                    @error('category') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
+
                 <div class="col-span-3">
                     <x-ui.input :type="'textarea'" label="Descrição" wire:model="description" rows="4" />
                 </div>
+
+                <div class="col-span-1" x-data="{ open: false }">
+                    <div @click.away="open = false"
+                    >
+                        <x-ui.input
+                            label="Etiquetas / Categorias"
+                            wire:model.live.debounce.300ms="tagSearch"
+                            @focus="open = true"
+                            @keydown.escape="open = false"
+                            @keydown.enter.prevent
+                            type="text"
+                            placeholder="{{ empty($selectedTags) ? 'Buscar ou adicionar tags...' : '' }}"
+                        >
+                            <div wire:loading wire:target="tagSearch" class="absolute right-3">
+                                <svg class="animate-spin h-4 w-4 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            </div>
+                        </x-ui.input>
+                    </div>
+
+                    <div
+                        x-show="open && $wire.tagSearch.length > 0"
+                        x-transition:enter="transition ease-out duration-100"
+                        x-transition:enter-start="transform opacity-0 scale-95"
+                        x-transition:enter-end="transform opacity-100 scale-100"
+                        class="absolute z-10 mt-1 max-h-60 w-full max-w-lg overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                        style="display: none;"
+                    >
+                        @if($availableTags->isEmpty())
+                            <div class="px-4 py-2 text-zinc-500 text-sm">
+                                Nenhuma tag encontrada para "<span class="font-bold">{{ $tagSearch }}</span>".
+                            </div>
+                        @else
+                            <ul class="divide-y divide-zinc-100">
+                                @foreach($availableTags as $tag)
+                                    <li
+                                        wire:click="addTag('{{ $tag->id }}')"
+                                        @click="open = false; $el.blur()"
+                                        class="cursor-pointer select-none px-4 py-2 hover:bg-indigo-50 hover:text-indigo-900 flex items-center justify-between group transition-colors"
+                                    >
+                                        <div class="flex items-center gap-2">
+                                            @php
+                                                $dotColors = [
+                                                    'red' => 'bg-red-500',
+                                                    'blue' => 'bg-blue-500',
+                                                    'green' => 'bg-emerald-500',
+                                                    'purple' => 'bg-purple-500',
+                                                    'zinc' => 'bg-zinc-500',
+                                                ];
+                                            @endphp
+                                            <span class="w-2 h-2 rounded-full {{ $dotColors[$tag->color] ?? 'bg-zinc-400' }}"></span>
+                                            <span class="text-zinc-700 group-hover:text-indigo-900">{{ $tag->name }}</span>
+                                        </div>
+
+                                        <svg class="h-4 w-4 text-indigo-400 opacity-0 group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                        </svg>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
+                </div>
             </div>
+
+            @if (!empty($selectedTags))
+                <div class="mt-2 w-full flex gap-2">
+                    @foreach($activeTags as $tag)
+                        @php
+                            $colors = [
+                                'red' => 'bg-red-100 text-red-700 border-red-200',
+                                'blue' => 'bg-blue-100 text-blue-700 border-blue-200',
+                                'green' => 'bg-emerald-100 text-emerald-700 border-emerald-200',
+                                'purple' => 'bg-purple-100 text-purple-700 border-purple-200',
+                                'zinc' => 'bg-zinc-100 text-zinc-700 border-zinc-200',
+                            ];
+                            $colorClass = $colors[$tag->color] ?? $colors['zinc'];
+                        @endphp
+
+                        <div wire:key="tag-{{ $tag->id }}" class="w-auto flex items-center gap-1 px-2 py-0.5 rounded text-xs font-bold border {{ $colorClass }} select-none animate-fadeIn">
+                            {{ $tag->name }}
+
+                            <button
+                                wire:click="removeTag('{{ $tag->id }}')"
+                                type="button"
+                                class="hover:text-red-900 focus:outline-none"
+                            >
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
 
             <div class="flex col-span-2 flex items-center mt-6" x-data>
                 <input type="checkbox" wire:model.live="hasVariants" id="has_variants" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">

@@ -5,16 +5,15 @@ namespace App\Livewire\Admin\Product;
 use AllowDynamicProperties;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\Tag;
 use App\Traits\WithToast;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use function abort;
 
 #[AllowDynamicProperties]
 final class ProductForm extends Component
@@ -44,6 +43,10 @@ final class ProductForm extends Component
 
     public $variants = [];
 
+    public $selectedTags = []; // Array de IDs das tags selecionadas
+
+    public $tagSearch = '';    // Texto da busca no dropdown
+
     protected bool $isEditing = false;
 
     protected $rules = [
@@ -54,6 +57,7 @@ final class ProductForm extends Component
         'variants.*.name' => 'required_if:has_variants,true|string',
         'variants.*.price' => 'nullable|numeric',
         'variants.*.stock_quantity' => 'required_if:has_variants,true|integer',
+        'selectedTags' => 'array',
     ];
 
     public function mount(?int $productId = null): void
@@ -66,10 +70,13 @@ final class ProductForm extends Component
             $this->product = $product;
             $this->name = $product->name;
             $this->description = $product->description;
+            $this->sku = $product->sku;
+            $this->category = $product->category;
             $this->price = $product->price / 100;
             $this->hasVariants = $product->has_variants;
             $this->existingCoverImage = $product->image_path;
             $this->existingGallery = $product->images;
+            $this->selectedTags = $product->tags()->pluck('tags.id')->toArray();
 
             // Carrega variantes existentes ou inicia vazio
             foreach ($product->variants as $variant) {
@@ -83,6 +90,19 @@ final class ProductForm extends Component
         } else {
             $this->variants = [['name' => '', 'price' => 0, 'stock_quantity' => 0]];
         }
+    }
+
+    public function addTag($tagId): void
+    {
+        if (! in_array($tagId, $this->selectedTags)) {
+            $this->selectedTags[] = $tagId;
+        }
+        $this->tagSearch = ''; // Limpa a busca após selecionar
+    }
+
+    public function removeTag($tagId): void
+    {
+        $this->selectedTags = array_diff($this->selectedTags, [$tagId]);
     }
 
     public function removeCover(): void
@@ -153,7 +173,7 @@ final class ProductForm extends Component
                     'name' => $this->name,
                     'slug' => Str::slug($this->name),
                     'description' => $this->description,
-                    'price' => (int)($this->price * 100),
+                    'price' => (int) ($this->price * 100),
                     'has_variants' => $this->hasVariants,
                     'image_path' => $coverPath,
                 ];
@@ -165,7 +185,9 @@ final class ProductForm extends Component
                     $product = Product::create($payload + ['is_active' => true]);
                 }
 
-                if (!empty($this->galleryImages)) {
+                $product->tags()->sync($this->selectedTags);
+
+                if (! empty($this->galleryImages)) {
                     foreach ($this->galleryImages as $img) {
                         $path = $img->store('products/gallery', 'public');
                         $product->images()->create([
@@ -179,7 +201,7 @@ final class ProductForm extends Component
                     foreach ($this->variants as $variant) {
                         $variantData = [
                             'name' => $variant['name'],
-                            'price' => $variant['price'] !== '' ? (int)($variant['price'] * 100) : null,
+                            'price' => $variant['price'] !== '' ? (int) ($variant['price'] * 100) : null,
                             'stock_quantity' => $variant['stock_quantity'],
                         ];
 
@@ -207,6 +229,17 @@ final class ProductForm extends Component
     #[Layout('layouts.sge')]
     public function render(): View
     {
-        return view('livewire.product.form');
+        $activeTags = Tag::whereIn('id', $this->selectedTags)->get();
+
+        // 2. Busca as tags disponíveis para o dropdown (excluindo as já selecionadas e filtrando pelo texto)
+        $availableTags = Tag::whereNotIn('id', $this->selectedTags)
+            ->when($this->tagSearch, fn ($q) => $q->where('name', 'like', '%'.$this->tagSearch.'%'))
+            ->limit(5) // Limita para não travar a UI se tiver muitas tags
+            ->get();
+
+        return view('livewire.product.form', [
+            'activeTags' => $activeTags,
+            'availableTags' => $availableTags,
+        ]);
     }
 }

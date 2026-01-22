@@ -5,6 +5,7 @@ namespace App\Models;
 use AllowDynamicProperties;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
@@ -20,6 +21,11 @@ final class Product extends Model
         'is_active' => 'boolean',
         'has_variants' => 'boolean',
     ];
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 
     public function images(): HasMany
     {

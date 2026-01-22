@@ -20,5 +20,16 @@ class DatabaseSeeder extends Seeder
             'email' => 'renatodev001@gmail.com',
             'password' => 'password',
         ]);
+
+        // Crie algumas tags
+        $t1 = \App\Models\Tag::create(['name' => 'Lançamento', 'slug' => 'lancamento', 'color' => 'purple']);
+        $t2 = \App\Models\Tag::create(['name' => 'Promoção', 'slug' => 'promocao', 'color' => 'red']);
+        $t3 = \App\Models\Tag::create(['name' => 'Eco-Friendly', 'slug' => 'eco', 'color' => 'green']);
+
+        // Associe ao primeiro produto
+        $p = \App\Models\Product::first();
+        if ($p) {
+            $p->tags()->attach([$t1->id, $t3->id]);
+        }
     }
 }

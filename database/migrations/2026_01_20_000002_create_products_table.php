@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->index();
             $table->text('description')->nullable();
+            $table->string('sku')->nullable();
+            $table->string('category')->nullable();
 
             // Preço base (em CENTAVOS para evitar erro de float). Ex: R$ 10,00 = 1000
             $table->integer('price')->default(0);
