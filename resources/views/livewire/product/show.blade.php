@@ -167,12 +167,11 @@
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                         </button>
 
-                        <button @click="prev()" class="absolute left-4 text-white hover:text-gray-300 z-50 p-2 bg-black/50 rounded-full hover:bg-black/80 transition" x-show="images.length > 1">
+                        <button @click="prev()" class="absolute hover:cursor-pointer left-4 text-white hover:text-gray-300 z-50 p-2 bg-black/50 rounded-full hover:bg-black/80 transition" x-show="images.length > 1">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                         </button>
 
-                        <div class="relative w-full h-full max-w-5xl max-h-screen p-4 flex flex-col items-center justify-center" @click.outside="isModalOpen = false">
-
+                        <div class="relative w-full h-full max-w-5xl max-h-screen p-4 flex flex-col items-center justify-center" {{-- @click.outside="isModalOpen = false"--}}>
                             <img :src="images[currentIndex]"
                                  class="max-w-full max-h-[85vh] object-contain shadow-2xl rounded-sm select-none"
                                  x-transition:enter="transition ease-out duration-300"
@@ -185,7 +184,7 @@
                             </div>
                         </div>
 
-                        <button @click="next()" class="absolute right-4 text-white hover:text-gray-300 z-50 p-2 bg-black/50 rounded-full hover:bg-black/80 transition" x-show="images.length > 1">
+                        <button @click="next()" class="absolute hover:cursor-pointer right-4 text-white hover:text-gray-300 z-50 p-2 bg-black/50 rounded-full hover:bg-black/80 transition" x-show="images.length > 1">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </button>
                     </div>

@@ -15,23 +15,20 @@
 
     <x-slot:body>
         <div class="flex flex-col sm:flex-row gap-4 mb-6 justify-between items-center">
-            <div class="relative w-full sm:w-72">
-                <x-ui.input-icon
-                    wire:model.live.debounce.300ms="search"
-                    type="text"
-                    placeholder="Buscar cliente ou projeto..."
-                    class="pl-10 block w-full rounded-lg border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                >
-                    <svg class="h-5 w-5 text-zinc-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
-                    </svg>
-                </x-ui.input-icon>
-            </div>
-
+            <x-ui.input-icon
+                wire:model.live.debounce.300ms="search"
+                type="text"
+                placeholder="Buscar cliente ou projeto..."
+                class="rounded-lg border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            >
+                <svg class="h-5 w-5 text-zinc-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+                </svg>
+            </x-ui.input-icon>
 
             <x-ui.select
                 wire:model.live="status"
-                class="block w-full sm:w-48 rounded-lg border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                class="w-48 sm:w-48 rounded-lg border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             >
                 <option value="">Todos os Status</option>
                 <option value="draft">Rascunho</option>
