@@ -2,7 +2,7 @@
 
 use Laravel\Fortify\Features;
 
-return [
+$fortify = [
 
     /*
     |--------------------------------------------------------------------------
@@ -157,3 +157,9 @@ return [
     ],
 
 ];
+
+if (env('FORTIFY_ENABLE_REGISTRATION', false)) {
+    $fortify['features'][] = Features::registration();
+}
+
+return $fortify;
